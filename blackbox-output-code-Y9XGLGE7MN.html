@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticker Shop - Cool Stickers Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stickers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .sticker-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sticker-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .sticker-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .sticker {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sticker:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .sticker-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .sticker-price {
+            color: #e74c3c;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .add-to-cart {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(238, 90, 82, 0.4);
+        }
+
+        .categories {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .category-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: white;
+            color: #333;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .stickers-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Sticker Shop</h1>
+            <p>Discover the coolest stickers for your collection!</p>
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active" onclick="filterStickers('all')">All</button>
+            <button class="category-btn" onclick="filterStickers('animals')">Animals</button>
+            <button class="category-btn" onclick="filterStickers('food')">Food</button>
+            <button class="category-btn" onclick="filterStickers('tech')">Tech</button>
+            <button class="category-btn" onclick="filterStickers('funny')">Funny</button>
+        </div>
+
+        <div class="stickers-grid" id="stickersGrid">
+            <!-- Animal Stickers -->
+            <div class="sticker-card" data-category="animals">
+                <div class="sticker" style="background: linear-gradient(135deg, #ff9a9e, #fecfef); display: flex; align-items: center; justify-content: center; font-size: 3em;">🐱</div>
+                <div class="sticker-name">Cute Cat</div>
+                <div class="sticker-price">$1.99</div>
+                <button class="add-to-cart" onclick="addToCart('Cute Cat', 1.99)">Add to Cart</button>
+            </div>
+
+            <div class="sticker-card" data-category="animals">
+                <div class="sticker" style="background: linear-gradient(135deg, #a8edea, #fed6e3); display: flex; align-items: center; justify-content: center; font-size: 3em;">🐶</div>
+                <div class="sticker-name">Happy Dog</div>
+                <div class="sticker-price">$2.49</div>
+                <button class="add-to-cart" onclick="addToCart('Happy Dog', 2.49)">Add to Cart</button>
+            </div>
+
+            <!-- Food Stickers -->
+            <div class="sticker-card" data-category="food">
+                <div class="sticker" style="background: linear-gradient(135deg, #ffecd2, #fcb69f); display: flex; align-items: center; justify-content: center; font-size: 3em;">🍕</div>
+                <div class="sticker-name">Pizza Slice</div>
+                <div class="sticker-price">$1.79</div>
+                <button class="add-to-cart" onclick="addToCart('Pizza Slice', 1.79)">Add to Cart</button>
+            </div>
+
+            <div class="sticker-card" data-category="food">
+                <div class="sticker" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb); display: flex; align-items: center; justify-content: center; font-size: 3em;">🍩</div>
+                <div class="sticker-name">Donut Love</div>
+                <div class="sticker-price">$2.29</div>
+                <button class="add-to-cart" onclick="addToCart('Donut Love', 2.29)">Add to Cart</button>
+            </div>
+
+            <!-- Tech Stickers -->
+            <div class="sticker-card" data-category="tech">
+                <div class="sticker" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; display: flex; align-items: center; justify-content: center; font-size: 2.5em;">💻</div>
+                <div class="sticker-name">Code Life</div>
+                <div class="sticker-price">$2.99</div>
+                <button class="add-to-cart" onclick="addToCart('Code Life', 2.99)">Add to Cart</button>
+            </div>
+
+            <div class="sticker-card" data-category="tech">
+                <div class="sticker" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; display: flex; align-items: center; justify-content: center; font-size: 3em;">📱</div>
+                <div class="sticker-name">Phone Vibes</div>
+                <div class="sticker-price">$1.89</div>
+                <button class="add-to-cart" onclick="addToCart('Phone Vibes', 1.89)">Add to Cart</button>
+            </div>
+
+            <!-- Funny Stickers -->
+            <div class="sticker-card" data-category="funny">
+                <div class="sticker" style="background: linear-gradient(135deg, #ffecd2, #fcb69f); display: flex; align-items: center; justify-content: center; font-size: 2.8em;">😂</div>
+                <div class="sticker-name">LOL Moment</div>
+                <div class="sticker-price">$1.49</div>
+                <button class="add-to-cart" onclick="addToCart('LOL Moment', 1.49)">Add to Cart</button>
+            </div>
+
+            <div class="sticker-card" data-category="funny">
+                <div class="sticker" style="background: linear-gradient(135deg, #a8edea, #fed6e3); display: flex; align-items: center; justify-content: center; font-size: 3em;">🤪</div>
+                <div class="sticker-name">Crazy Face</div>
+                <div class="sticker-price">$1.69</div>
+                <button class="add-to-cart" onclick="addToCart('Crazy Face', 1.69)">Add to Cart</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <div id="cartCounter" style="background: rgba(255,255,255,0.9); padding: 15px 30px; border-radius: 30px; display: inline-block; font-size: 1.2em; font-weight: bold; color: #333;">
+                🛒 Cart: <span id="itemCount">0</span> items
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartCounter();
+            // Simple notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; background: #27ae60; 
+                color: white; padding: 15px 20px; border-radius: 10px; 
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = `Added ${name} to cart!`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        function updateCartCounter() {
+            document.getElementById('itemCount').textContent = cart.length;
+        }
+
+        function filterStickers(category) {
+            const cards = document.querySelectorAll('.sticker-card');
+            const buttons = document.querySelectorAll('.category-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Add slide-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
